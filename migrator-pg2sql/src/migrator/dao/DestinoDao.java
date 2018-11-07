@@ -17,4 +17,6 @@ public interface DestinoDao {
     public List<Map<String, Object>> ListData(String sql);
     
     public void insertA();
+    
+    public void insertMap(Map<String, Object> parameters);
 }

@@ -30,4 +30,7 @@ public class DestinoServiceImpl implements DestinoService {
         destinoDao.insertA();
     }
     
+    public void insertMap(Map<String, Object> parameters) {
+        destinoDao.insertMap(parameters);
+    }
 }

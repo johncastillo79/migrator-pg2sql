@@ -17,4 +17,6 @@ public interface DestinoService {
     public List<Map<String, Object>> listData();
     
     public void insertA();
+    
+    public void insertMap(Map<String, Object> parameters);
 }

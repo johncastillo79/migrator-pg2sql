@@ -14,9 +14,11 @@ import org.json.JSONObject;
 public class JsonProcessor {
 
     private String source;
+    private JSONObject json;
 
     public JsonProcessor(String source) {
         this.source = source;
+        json = new JSONObject(source);
     }
 
     public String getSource() {
@@ -28,7 +30,6 @@ public class JsonProcessor {
     }
 
     public void printAttributes() {
-        JSONObject json = new JSONObject(source);
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (String key : json.keySet()) {
@@ -37,4 +38,9 @@ public class JsonProcessor {
         sb.append("]");
         System.out.println(sb.toString());
     }
+
+    public JSONObject getJson() {
+        return json;
+    }
+    
 }

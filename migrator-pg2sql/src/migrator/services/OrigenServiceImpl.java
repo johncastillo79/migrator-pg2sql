@@ -45,8 +45,18 @@ public class OrigenServiceImpl implements OrigenService {
         String sql = "select * from registro.maestro";
         return origenDao.ListData(sql);
     }
-    
+
     public List<Map<String, Object>> listDetail(Object get) {
         return origenDao.findDetail(get);
+    }
+
+    public List<Map<String, Object>> paises() {
+        String sql = "select * from geografia.pais";
+        return origenDao.ListData(sql);
+    }
+
+    public List<Map<String, Object>> localidades() {
+        String sql = "select * from geografia.localidad";
+        return origenDao.ListData(sql);
     }
 }

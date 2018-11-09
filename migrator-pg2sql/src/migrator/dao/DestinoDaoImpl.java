@@ -64,7 +64,12 @@ public class DestinoDaoImpl implements DestinoDao {
     public void insertMap(Map<String, Object> params) {        
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate1.getDataSource())
                 .withTableName("\"TrnPartDefuncionDemo\"")
-                .usingColumns("\"IdCiudadano\"", "\"FechaInscripcion\"", "\"NombresFallecido\"", "\"TrnPartDefuncion\"")
+                .usingColumns("\"IdCiudadano\"", 
+                        "\"FechaInscripcion\"", 
+                        "\"NombresFallecido\"", 
+                        "\"IdNroOficialia\"",
+                        "\"PaisInscripcion\"",
+                        "\"IdLocInscripcion\"")
                 .withSchemaName("public");
         
         simpleJdbcInsert.execute(params);

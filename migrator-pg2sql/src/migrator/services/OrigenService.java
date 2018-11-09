@@ -26,4 +26,8 @@ public interface OrigenService {
 
     public List<Map<String, Object>> listDetail(Object get);
     
+    public List<Map<String, Object>> paises();
+    
+    public List<Map<String, Object>> localidades();
+    
 }

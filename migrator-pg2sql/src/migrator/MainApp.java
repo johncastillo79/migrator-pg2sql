@@ -33,6 +33,12 @@ public class MainApp {
         OrigenService origen = (OrigenService) context.getBean("origenService");
         DestinoService destino = (DestinoService) context.getBean("destinoService");
         // TODO
+        // List Catalogos
+        // Paises
+        List<Map<String, Object>> paises = origen.paises();
+        // Localidades
+        List<Map<String, Object>> localidades = origen.localidades();
+
         // List Master
         List<Map<String, Object>> ms = origen.listMaster();
         // integer ID
@@ -50,7 +56,7 @@ public class MainApp {
             for (Map<String, Object> d : dt) {
                 System.out.println(d.get("descripcion_plantilla"));
                 // process data
-                in.putAll(MainApp.parseJson(d));
+                in.putAll(MainApp.parseJson(d, paises, localidades));
             }
             System.out.println(in);
             destino.insertMap(in);
@@ -62,7 +68,10 @@ public class MainApp {
         context.close();
     }
 
-    public static Map<String, Object> parseJson(Map<String, Object> en) throws ParseException {
+    public static Map<String, Object> parseJson(Map<String, Object> en,
+            List<Map<String, Object>> paises,
+            List<Map<String, Object>> localidades) throws ParseException {
+
         Map<String, Object> obj = new HashMap<>();
         // procesar el archivo: PGobject.class contiene logica para procesar el json 
         Integer id_plantilla = (Integer) en.get("id_plantilla");
@@ -76,10 +85,16 @@ public class MainApp {
         if (id_plantilla == 86) { // DATOS_CABECERA_PARTIDA_DEFUNCION
             // sacar values 
             String FechaInscripcion = jp.getJson().getString("fecha_inscripcion");
-            Integer TrnPartDefuncion = jp.getJson().getInt("numero_oficialia");
+            Integer IdNroOficialia = jp.getJson().getInt("numero_oficialia");
+
+            String PaisInscripcion = jp.getJson().getString("pais");
+            String IdLocInscripcion = jp.getJson().getString("localidad");
+
             // set principal 
-            obj.put("\"TrnPartDefuncion\"", TrnPartDefuncion);
+            obj.put("\"IdNroOficialia\"", IdNroOficialia);
             obj.put("\"FechaInscripcion\"", MainApp.parseDate(FechaInscripcion, "dd/MM/yyyy"));
+            obj.put("\"PaisInscripcion\"", MainApp.buscarPais(PaisInscripcion, paises));
+            obj.put("\"IdLocInscripcion\"", MainApp.buscarLocalidad(IdLocInscripcion, localidades));
             sw = true;
         }
         if (id_plantilla == 87) { // DATOS_FALLECIDO
@@ -120,5 +135,23 @@ public class MainApp {
     public static Date parseDate(String src, String pattr) throws ParseException {
         DateFormat df = new SimpleDateFormat(pattr);
         return df.parse(src);
+    }
+
+    public static int buscarPais(String pais, List<Map<String, Object>> paises) {
+        for (Map<String, Object> m : paises) {
+            if (pais.equals(m.get("nombre_pais"))) {
+                return (int) m.get("id_pais");
+            }
+        }
+        return 1;
+    }
+
+    public static int buscarLocalidad(String localidad, List<Map<String, Object>> localidades) {
+        for (Map<String, Object> m : localidades) {
+            if (localidad.equals(m.get("nombre_localidad"))) {
+                return (int) m.get("id_localidad");
+            }
+        }
+        return 0;
     }
 }
